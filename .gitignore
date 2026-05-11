@@ -1,0 +1,18 @@
+# Environment variables - never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# Git copies - should never be tracked
+.git copy/
+
+# Node
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
