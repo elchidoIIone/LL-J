@@ -1,0 +1,55 @@
+0000000000000000000000000000000000000000 3b9986a69eb29f8641869978d29a2f0bf23d074d Beto B. <elchidoone1001@gmail.com> 1773076027 -0600	clone: from https://github.com/AlejandroGrijalva/LL-J.git
+3b9986a69eb29f8641869978d29a2f0bf23d074d 248a2d25c6d9ac1955b140ee12d66b714edd7c1b Beto B. <elchidoone1001@gmail.com> 1773077538 -0600	commit: Seeders Update
+248a2d25c6d9ac1955b140ee12d66b714edd7c1b dbbc48dd3acdb531a7b4a7f5e4277061c5fd7d69 Beto B. <elchidoone1001@gmail.com> 1773077545 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+dbbc48dd3acdb531a7b4a7f5e4277061c5fd7d69 f26d1882f2576548feec2cc3b56ef14289f43034 Beto B. <elchidoone1001@gmail.com> 1773078196 -0600	pull --tags origin main: Fast-forward
+f26d1882f2576548feec2cc3b56ef14289f43034 c5c1f4f1f56d09bbbbf15040e68a3283ecb4dadb Beto B. <elchidoone1001@gmail.com> 1773159137 -0600	commit: Seeders Update
+c5c1f4f1f56d09bbbbf15040e68a3283ecb4dadb e3a47d23ad7e8fa457806102ca0527d40b662120 Beto B. <elchidoone1001@gmail.com> 1773159146 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+e3a47d23ad7e8fa457806102ca0527d40b662120 e5c86ce9a867bbe6e76121c80d459efe215fa91a Beto B. <elchidoone1001@gmail.com> 1773159471 -0600	commit: Seeder corection
+e5c86ce9a867bbe6e76121c80d459efe215fa91a 93199d7153700fe24517e0a851f9e6240cb9f07e Beto B. <elchidoone1001@gmail.com> 1773160044 -0600	commit: Seeders corrections 2
+93199d7153700fe24517e0a851f9e6240cb9f07e 60da4b7cfc8c964692709a7dd9f5e560ef30b122 Beto B. <elchidoone1001@gmail.com> 1773249471 -0600	commit: Styles
+60da4b7cfc8c964692709a7dd9f5e560ef30b122 76bf582a768eade705cc1f4d78910d505188c701 Beto B. <elchidoone1001@gmail.com> 1773249731 -0600	commit: styles2
+76bf582a768eade705cc1f4d78910d505188c701 a1616fe19eb45e1aee2548c24339996679b2ffec Beto B. <elchidoone1001@gmail.com> 1773249908 -0600	pull --tags origin main: Fast-forward
+a1616fe19eb45e1aee2548c24339996679b2ffec a08458e1ef56202852b367ccbbfb12125945125b Beto B. <elchidoone1001@gmail.com> 1773251313 -0600	commit: o
+a08458e1ef56202852b367ccbbfb12125945125b 13dfbc9a986e76c2bf966aaa57a70b54538d712e Beto B. <elchidoone1001@gmail.com> 1773251319 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+13dfbc9a986e76c2bf966aaa57a70b54538d712e d862c00f710c64c177a6b4d855dbd8b88d2e9bd4 Beto B. <elchidoone1001@gmail.com> 1773252667 -0600	commit: Login
+d862c00f710c64c177a6b4d855dbd8b88d2e9bd4 cb81b5b0a18c4d4a513d54b68112484d99099949 Beto B. <elchidoone1001@gmail.com> 1773252673 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+cb81b5b0a18c4d4a513d54b68112484d99099949 f267cee5142f0409dec92b62de47d0a79a9400e0 Beto B. <elchidoone1001@gmail.com> 1773253235 -0600	pull --tags origin main: Fast-forward
+f267cee5142f0409dec92b62de47d0a79a9400e0 ebc972966f33ad462c2f6e4310a6cd98e85a1b28 Beto B. <elchidoone1001@gmail.com> 1773253749 -0600	commit: Login corrections :P
+ebc972966f33ad462c2f6e4310a6cd98e85a1b28 f42f542c0a393a91031e2c7e527d9f73108de669 Beto B. <elchidoone1001@gmail.com> 1773419085 -0600	commit: login
+f42f542c0a393a91031e2c7e527d9f73108de669 d2df9f69665aecb2ae8b5c91f9193a13afe3fdb8 Beto B. <elchidoone1001@gmail.com> 1773419090 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+d2df9f69665aecb2ae8b5c91f9193a13afe3fdb8 74b61b003aa406ffd2d9f71f3be6bbd3fbf4cb49 Beto B. <elchidoone1001@gmail.com> 1773419602 -0600	commit: Controllers
+74b61b003aa406ffd2d9f71f3be6bbd3fbf4cb49 e9ae746d3fe2cd7a9dff2859384f7264ccfba994 Beto B. <elchidoone1001@gmail.com> 1773420549 -0600	commit: RestaurantsController update
+e9ae746d3fe2cd7a9dff2859384f7264ccfba994 11299aa7b6dda575b38996aa271fdc90631bef62 Beto B. <elchidoone1001@gmail.com> 1773420554 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+11299aa7b6dda575b38996aa271fdc90631bef62 676f4375f9704eecd67ac44545f1670318db981d Beto B. <elchidoone1001@gmail.com> 1773420919 -0600	pull --tags origin main: Fast-forward
+676f4375f9704eecd67ac44545f1670318db981d d3e2df97763eb3d0748967065c6d5ebc43f3a12a Beto B. <elchidoone1001@gmail.com> 1773421431 -0600	pull --tags origin main: Fast-forward
+d3e2df97763eb3d0748967065c6d5ebc43f3a12a 14989114a59d5d2f8a159ef6a5505ae1d7a14c90 Beto B. <elchidoone1001@gmail.com> 1773421459 -0600	commit: Update
+14989114a59d5d2f8a159ef6a5505ae1d7a14c90 326caae993b6c5141115e9572aa917f989a85c69 Beto B. <elchidoone1001@gmail.com> 1773421706 -0600	commit: Fixed Controllers
+326caae993b6c5141115e9572aa917f989a85c69 53add13f5485c659c87d5be670fbc7d2b586af69 Beto B. <elchidoone1001@gmail.com> 1773421711 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+53add13f5485c659c87d5be670fbc7d2b586af69 15d559dcf28b6aea7af30c919b1d290a533cea6b Beto B. <elchidoone1001@gmail.com> 1773422348 -0600	commit: Fixed RestaurantController
+15d559dcf28b6aea7af30c919b1d290a533cea6b 96cd4adf163df551592aeb820d69c65267dc3e6c Beto B. <elchidoone1001@gmail.com> 1773422481 -0600	commit (merge): Merge branch 'main' of https://github.com/AlejandroGrijalva/LL-J
+96cd4adf163df551592aeb820d69c65267dc3e6c a6b113e0ea770dd3bf0900eea513fad6f3e7aaa3 Beto B. <elchidoone1001@gmail.com> 1773423111 -0600	pull --tags origin main: Fast-forward
+a6b113e0ea770dd3bf0900eea513fad6f3e7aaa3 f69ecf2a81bb1e3ab83c2d3f462120c30bf01f09 Beto B. <elchidoone1001@gmail.com> 1773432523 -0600	pull --tags origin main: Fast-forward
+f69ecf2a81bb1e3ab83c2d3f462120c30bf01f09 9d8f1b18a2031388fafeebf2c45fef4bc177322b Beto B. <elchidoone1001@gmail.com> 1776447229 -0600	pull --tags origin main: Fast-forward
+9d8f1b18a2031388fafeebf2c45fef4bc177322b 91b6a4d076e70dd6e2c363e80c065623e5796b55 Beto B. <elchidoone1001@gmail.com> 1776447572 -0600	pull --tags origin main: Fast-forward
+91b6a4d076e70dd6e2c363e80c065623e5796b55 dec2c8d60eab3730eebac1d59749f67b6a0f4f2a Beto B. <elchidoone1001@gmail.com> 1776447769 -0600	pull --tags origin main: Fast-forward
+dec2c8d60eab3730eebac1d59749f67b6a0f4f2a 58537599dc67a76280a18ea578b4bbb537f3a96d Beto B. <elchidoone1001@gmail.com> 1776448486 -0600	commit: APIs de REstaurants Seeder y Sponsorships
+58537599dc67a76280a18ea578b4bbb537f3a96d 9c9c09d453f30dafc9e13b783a53b5e7fac47f1b Beto B. <elchidoone1001@gmail.com> 1776448771 -0600	commit: Review API
+9c9c09d453f30dafc9e13b783a53b5e7fac47f1b 50627612c3bc2d30bb0749fd682065e5edf74976 Beto B. <elchidoone1001@gmail.com> 1776705851 -0600	pull --tags origin main: Fast-forward
+50627612c3bc2d30bb0749fd682065e5edf74976 51821cfc086cf3c460ad1a649ee161ac9db33bd4 Beto B. <elchidoone1001@gmail.com> 1776706650 -0600	commit: docs
+51821cfc086cf3c460ad1a649ee161ac9db33bd4 83b3475a97c421349c22ea831cb5e7f3f056cd63 Beto B. <elchidoone1001@gmail.com> 1776706657 -0600	pull --tags origin main: Merge made by the 'ort' strategy.
+83b3475a97c421349c22ea831cb5e7f3f056cd63 d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 Beto B. <elchidoone1001@gmail.com> 1776706774 -0600	commit: updates
+d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 Beto B. <elchidoone1001@gmail.com> 1776707172 -0600	checkout: moving from main to Beto
+d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 524e8c8642d74db4d19ad8cd836f66f9ee294f26 Beto B. <elchidoone1001@gmail.com> 1776707204 -0600	commit: Betogpt
+524e8c8642d74db4d19ad8cd836f66f9ee294f26 5843bf0aded3b2eba54a66232956636d74f48aca Beto B. <elchidoone1001@gmail.com> 1776709057 -0600	commit: Docs_update
+5843bf0aded3b2eba54a66232956636d74f48aca 3cd2ae2531f1ec317f836c0dff08ab1d223cd659 Beto B. <elchidoone1001@gmail.com> 1776709234 -0600	commit: docs_update
+3cd2ae2531f1ec317f836c0dff08ab1d223cd659 92c33b0a41bc4aaaae6ee63e24f818a882c7bb8d Beto B. <elchidoone1001@gmail.com> 1776709455 -0600	commit: docs_update
+92c33b0a41bc4aaaae6ee63e24f818a882c7bb8d c7cf976e35bfee4203dbb75252f42e56714ea2f7 Beto B. <elchidoone1001@gmail.com> 1777048257 -0600	pull --tags origin Beto: Fast-forward
+c7cf976e35bfee4203dbb75252f42e56714ea2f7 0a92b3723187ae49497462cfb607a958e780c8b3 Beto B. <elchidoone1001@gmail.com> 1778513460 -0600	commit: React
+0a92b3723187ae49497462cfb607a958e780c8b3 d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 Beto B. <elchidoone1001@gmail.com> 1778514023 -0600	checkout: moving from Beto to main
+d4f174dacb3b621d8b51e577ec56f13d7eca8ef6 e573cf3e4bd15a0774ad3391da8bab8401e38f25 Beto B. <elchidoone1001@gmail.com> 1778514105 -0600	commit: React punto 2
+e573cf3e4bd15a0774ad3391da8bab8401e38f25 af5d571757b014c4a5c2a8352a75bc116732a872 Beto B. <elchidoone1001@gmail.com> 1778515158 -0600	commit (merge): Remove node_modules from git tracking and add root .gitignore
+af5d571757b014c4a5c2a8352a75bc116732a872 0f1def581ea6b00b08dc9d2e097b2f02606253ad Beto B. <elchidoone1001@gmail.com> 1778515282 -0600	commit: Avance front end
+0f1def581ea6b00b08dc9d2e097b2f02606253ad 791cb26284fb595a54a6eb9a3507fae3c42bb976 Beto B. <elchidoone1001@gmail.com> 1778516078 -0600	commit: Hola
+791cb26284fb595a54a6eb9a3507fae3c42bb976 e28898a13d92987f038f70c76408b9646662bbcc Beto B. <elchidoone1001@gmail.com> 1778517376 -0600	commit: Mapa correction
+e28898a13d92987f038f70c76408b9646662bbcc a0e1395c4042f8aaedbc19776f2df8574553036a Beto B. <elchidoone1001@gmail.com> 1778517426 -0600	commit: a
+a0e1395c4042f8aaedbc19776f2df8574553036a 7ceb65cd686fa5bebd067fdf2ddc0590111616d5 Beto B. <elchidoone1001@gmail.com> 1778517586 -0600	pull --tags origin main: Merge made by the 'ort' strategy.

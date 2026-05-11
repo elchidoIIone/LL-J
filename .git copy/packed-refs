@@ -1,0 +1,5 @@
+# pack-refs with: peeled fully-peeled sorted 
+0a92b3723187ae49497462cfb607a958e780c8b3 refs/heads/Beto
+e573cf3e4bd15a0774ad3391da8bab8401e38f25 refs/heads/main
+0a92b3723187ae49497462cfb607a958e780c8b3 refs/remotes/origin/Beto
+a0b0c1c1f1e997b0f05f695ad1a0493912958cf1 refs/remotes/origin/main
