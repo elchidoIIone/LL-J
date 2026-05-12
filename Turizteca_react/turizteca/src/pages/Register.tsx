@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import type { AccountType, BudgetType } from '../types';
+import AztecDivider from '../components/ui/AztecDivider';
 import turiztecaLogo from '../img/Turizteca-Logo.png';
 
 const BUDGET_OPTIONS: { value: BudgetType; label: string; sub: string }[] = [
@@ -48,35 +49,57 @@ export default function Register() {
   return (
     <div className="min-h-screen flex flex-col">
 
-      {/* Sección oscura — obsidiana con logo y progreso */}
+      {/* Sección oscura compacta con logo arriba */}
       <div
-        className="flex flex-col items-center justify-end px-6 pb-8 pt-14"
-        style={{ background: '#1A0800', minHeight: '34vh' }}
+        className="flex flex-col items-center px-6 pt-12 pb-6"
+        style={{ background: '#1A0800' }}
       >
-        <img src={turiztecaLogo} alt="Turizteca" className="h-20 w-auto mb-4 drop-shadow-xl" />
+        <div className="flex items-center gap-2 mb-5 self-start">
+          <span className="w-6 h-px bg-[#C4501A]" />
+          <span className="font-label text-[#E8723C] uppercase tracking-widest text-[10px] font-bold">
+            Crea tu cuenta
+          </span>
+        </div>
+
+        <img src={turiztecaLogo} alt="Turizteca" className="h-20 w-auto drop-shadow-xl" />
 
         {/* Barra de progreso */}
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm mt-5">
           <div className="flex justify-between mb-2">
-            <span className="text-[#C4A882] text-xs font-label font-bold uppercase tracking-widest">
+            <span className="text-[#C4A882] text-[10px] font-label font-bold uppercase tracking-widest">
               Paso {step} de 2
             </span>
-            <span className="text-[#C4A882] text-xs font-label">
+            <span className="text-[#C4A882] text-[10px] font-label">
               {step === 1 ? 'Tus datos' : 'Tu perfil'}
             </span>
           </div>
           <div className="h-1 bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${step * 50}%`, background: '#C4501A' }}
+              style={{
+                width: `${step * 50}%`,
+                background: 'linear-gradient(90deg, #C4501A, #E8723C)',
+              }}
             />
           </div>
         </div>
       </div>
 
+      <div style={{ background: '#1A0800' }}>
+        <AztecDivider color="#FBF4E8" />
+      </div>
+      <div
+        style={{
+          height: '24px',
+          background: '#FBF4E8',
+          borderRadius: '28px 28px 0 0',
+          marginTop: '-2px',
+        }}
+      />
+
       {/* Sección clara — formulario */}
       <div
-        className="flex-1 rounded-t-[2rem] -mt-5 px-6 pt-8 pb-10"
+        className="flex-1 -mt-2 px-6 pt-2 pb-10"
         style={{ background: '#FBF4E8' }}
       >
         <div className="max-w-sm mx-auto">

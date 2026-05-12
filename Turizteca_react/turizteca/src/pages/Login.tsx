@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AztecDivider from '../components/ui/AztecDivider';
 import turiztecaLogo from '../img/Turizteca-Logo.png';
 
 export default function Login() {
@@ -30,24 +31,42 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col">
 
-      {/* Sección oscura — obsidiana con logo */}
+      {/* Sección oscura compacta con logo arriba */}
       <div
-        className="flex flex-col items-center justify-end px-6 pb-10 pt-16"
-        style={{ background: '#1A0800', minHeight: '42vh' }}
+        className="flex flex-col items-center px-6 pt-12 pb-6"
+        style={{ background: '#1A0800' }}
       >
-        <img src={turiztecaLogo} alt="Turizteca" className="h-28 w-auto mb-5 drop-shadow-xl" />
-        <p className="text-[#C4A882] text-sm text-center font-label tracking-wide">
+        <div className="flex items-center gap-2 mb-5 self-start">
+          <span className="w-6 h-px bg-[#C4501A]" />
+          <span className="font-label text-[#E8723C] uppercase tracking-widest text-[10px] font-bold">
+            Bienvenido
+          </span>
+        </div>
+
+        <img src={turiztecaLogo} alt="Turizteca" className="h-24 w-auto drop-shadow-xl" />
+        <p className="text-[#C4A882] text-sm text-center font-label tracking-wide mt-3">
           Descubre los sabores que México esconde
         </p>
       </div>
 
-      {/* Sección clara — formulario en pergamino */}
+      <div style={{ background: '#1A0800' }}>
+        <AztecDivider color="#FBF4E8" />
+      </div>
       <div
-        className="flex-1 rounded-t-[2rem] -mt-5 px-6 pt-8 pb-10"
-        style={{ background: '#FBF4E8' }}
-      >
+        style={{
+          height: '24px',
+          background: '#FBF4E8',
+          borderRadius: '28px 28px 0 0',
+          marginTop: '-2px',
+        }}
+      />
+
+      {/* Sección clara con el formulario */}
+      <div className="flex-1 px-6 pb-10 -mt-2" style={{ background: '#FBF4E8' }}>
         <div className="max-w-sm mx-auto">
-          <h2 className="font-headline text-2xl font-bold text-on-surface mb-6">Inicia sesión</h2>
+          <h2 className="font-headline text-2xl font-bold text-on-surface mb-6 pt-2">
+            Inicia sesión
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -121,8 +140,12 @@ export default function Login() {
           </div>
 
           <div className="mt-4 text-center">
-            <Link to="/" className="text-on-surface-variant text-sm hover:text-on-surface">
-              ← Continuar sin cuenta
+            <Link
+              to="/"
+              className="text-on-surface-variant text-sm hover:text-on-surface inline-flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined text-base">arrow_back</span>
+              Continuar sin cuenta
             </Link>
           </div>
         </div>
