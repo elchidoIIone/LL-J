@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import type { AccountType, BudgetType } from '../types';
+import turiztecaLogo from '../img/Turizteca-Logo.png';
 
-const BUDGET_OPTIONS: { value: BudgetType; label: string; emoji: string }[] = [
-  { value: 'low', label: 'Económico', emoji: '💚' },
-  { value: 'medium', label: 'Moderado', emoji: '💛' },
-  { value: 'high', label: 'Premium', emoji: '🔴' },
+const BUDGET_OPTIONS: { value: BudgetType; label: string; sub: string }[] = [
+  { value: 'low', label: 'Económico', sub: '< $150' },
+  { value: 'medium', label: 'Moderado', sub: '$150–$400' },
+  { value: 'high', label: 'Premium', sub: '> $400' },
 ];
 
 export default function Register() {
@@ -45,35 +46,39 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="px-6 pt-12 pb-4 flex items-center gap-4">
-        {step === 2 ? (
-          <button onClick={() => setStep(1)} className="text-primary">
-            <span className="material-symbols-outlined">arrow_back</span>
-          </button>
-        ) : (
-          <Link to="/login" className="text-primary">
-            <span className="material-symbols-outlined">arrow_back</span>
-          </Link>
-        )}
-        <div>
-          <h1 className="font-headline text-2xl font-black text-primary">Turizteca</h1>
-          <p className="text-xs text-on-surface-variant font-label">Paso {step} de 2</p>
+    <div className="min-h-screen flex flex-col">
+
+      {/* Sección oscura — obsidiana con logo y progreso */}
+      <div
+        className="flex flex-col items-center justify-end px-6 pb-8 pt-14"
+        style={{ background: '#1A0800', minHeight: '34vh' }}
+      >
+        <img src={turiztecaLogo} alt="Turizteca" className="h-20 w-auto mb-4 drop-shadow-xl" />
+
+        {/* Barra de progreso */}
+        <div className="w-full max-w-sm">
+          <div className="flex justify-between mb-2">
+            <span className="text-[#C4A882] text-xs font-label font-bold uppercase tracking-widest">
+              Paso {step} de 2
+            </span>
+            <span className="text-[#C4A882] text-xs font-label">
+              {step === 1 ? 'Tus datos' : 'Tu perfil'}
+            </span>
+          </div>
+          <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-500"
+              style={{ width: `${step * 50}%`, background: '#C4501A' }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div className="px-6 mb-6">
-        <div className="h-1.5 bg-surface-container rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-500"
-            style={{ width: `${step * 50}%` }}
-          />
-        </div>
-      </div>
-
-      <div className="flex-1 px-6 pb-8">
+      {/* Sección clara — formulario */}
+      <div
+        className="flex-1 rounded-t-[2rem] -mt-5 px-6 pt-8 pb-10"
+        style={{ background: '#FBF4E8' }}
+      >
         <div className="max-w-sm mx-auto">
           <form onSubmit={handleSubmit} className="space-y-5">
             {step === 1 ? (
@@ -84,11 +89,13 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-on-surface-variant mb-1.5 font-label">Nombre completo</label>
-                  <div className="flex items-center bg-surface-container-low rounded-xl px-4 py-3 border border-outline-variant/20 focus-within:border-primary transition-colors">
+                  <label className="block text-xs font-bold text-on-surface-variant mb-1.5 font-label uppercase tracking-widest">
+                    Nombre completo
+                  </label>
+                  <div className="flex items-center bg-white rounded-xl px-4 py-3.5 border border-outline-variant/30 focus-within:border-primary transition-colors shadow-sm">
                     <span className="material-symbols-outlined text-outline mr-3 text-sm">person</span>
                     <input
-                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/50 text-sm"
+                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/40 text-sm"
                       placeholder="Tu nombre"
                       value={name}
                       onChange={e => setName(e.target.value)}
@@ -98,12 +105,14 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-on-surface-variant mb-1.5 font-label">Email</label>
-                  <div className="flex items-center bg-surface-container-low rounded-xl px-4 py-3 border border-outline-variant/20 focus-within:border-primary transition-colors">
+                  <label className="block text-xs font-bold text-on-surface-variant mb-1.5 font-label uppercase tracking-widest">
+                    Email
+                  </label>
+                  <div className="flex items-center bg-white rounded-xl px-4 py-3.5 border border-outline-variant/30 focus-within:border-primary transition-colors shadow-sm">
                     <span className="material-symbols-outlined text-outline mr-3 text-sm">mail</span>
                     <input
                       type="email"
-                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/50 text-sm"
+                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/40 text-sm"
                       placeholder="tu@email.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
@@ -113,12 +122,14 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-on-surface-variant mb-1.5 font-label">Contraseña</label>
-                  <div className="flex items-center bg-surface-container-low rounded-xl px-4 py-3 border border-outline-variant/20 focus-within:border-primary transition-colors">
+                  <label className="block text-xs font-bold text-on-surface-variant mb-1.5 font-label uppercase tracking-widest">
+                    Contraseña
+                  </label>
+                  <div className="flex items-center bg-white rounded-xl px-4 py-3.5 border border-outline-variant/30 focus-within:border-primary transition-colors shadow-sm">
                     <span className="material-symbols-outlined text-outline mr-3 text-sm">lock</span>
                     <input
                       type={showPw ? 'text' : 'password'}
-                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/50 text-sm"
+                      className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/40 text-sm"
                       placeholder="Mínimo 8 caracteres"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
@@ -126,14 +137,17 @@ export default function Register() {
                       required
                     />
                     <button type="button" onClick={() => setShowPw(p => !p)} className="text-outline ml-2">
-                      <span className="material-symbols-outlined text-sm">{showPw ? 'visibility_off' : 'visibility'}</span>
+                      <span className="material-symbols-outlined text-sm">
+                        {showPw ? 'visibility_off' : 'visibility'}
+                      </span>
                     </button>
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-4 rounded-2xl font-bold text-base shadow-lg mt-2"
+                  className="w-full py-4 rounded-2xl font-bold text-base shadow-lg mt-2 text-on-primary active:scale-[0.98] transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #C4501A 0%, #E8723C 100%)' }}
                 >
                   Continuar →
                 </button>
@@ -145,9 +159,10 @@ export default function Register() {
                   <p className="text-on-surface-variant text-sm mb-6">Así podemos recomendarte mejor</p>
                 </div>
 
-                {/* Account type */}
                 <div>
-                  <label className="block text-sm font-bold text-on-surface-variant mb-3 font-label">¿Cómo usarás Turizteca?</label>
+                  <label className="block text-xs font-bold text-on-surface-variant mb-3 font-label uppercase tracking-widest">
+                    ¿Cómo usarás Turizteca?
+                  </label>
                   <div className="grid grid-cols-2 gap-3">
                     {([
                       { value: 'customer', label: 'Soy viajero', icon: 'explore', desc: 'Busco restaurantes' },
@@ -159,11 +174,14 @@ export default function Register() {
                         onClick={() => setAccountType(opt.value)}
                         className={`p-4 rounded-2xl border-2 text-left transition-all ${
                           accountType === opt.value
-                            ? 'border-primary bg-surface-container-low'
-                            : 'border-outline-variant/20 bg-surface-container-lowest hover:border-outline-variant'
+                            ? 'border-primary bg-white shadow-md'
+                            : 'border-outline-variant/20 bg-white/60 hover:border-outline-variant'
                         }`}
                       >
-                        <span className={`material-symbols-outlined text-2xl mb-2 block ${accountType === opt.value ? 'text-primary' : 'text-on-surface-variant'}`}>
+                        <span
+                          className="material-symbols-outlined text-2xl mb-2 block"
+                          style={{ color: accountType === opt.value ? '#C4501A' : '#9B7048' }}
+                        >
                           {opt.icon}
                         </span>
                         <p className="font-bold text-on-surface text-sm">{opt.label}</p>
@@ -173,23 +191,30 @@ export default function Register() {
                   </div>
                 </div>
 
-                {/* Budget */}
                 <div>
-                  <label className="block text-sm font-bold text-on-surface-variant mb-3 font-label">Rango de presupuesto preferido</label>
+                  <label className="block text-xs font-bold text-on-surface-variant mb-3 font-label uppercase tracking-widest">
+                    Presupuesto preferido
+                  </label>
                   <div className="grid grid-cols-3 gap-2">
                     {BUDGET_OPTIONS.map(opt => (
                       <button
                         key={opt.value}
                         type="button"
                         onClick={() => setBudget(opt.value)}
-                        className={`p-3 rounded-xl border-2 transition-all text-center ${
+                        className={`p-3.5 rounded-xl border-2 transition-all text-center ${
                           budget === opt.value
-                            ? 'border-primary bg-surface-container-low'
-                            : 'border-outline-variant/20 bg-surface-container-lowest'
+                            ? 'border-primary bg-white shadow-md'
+                            : 'border-outline-variant/20 bg-white/60'
                         }`}
                       >
-                        <span className="text-2xl block mb-1">{opt.emoji}</span>
+                        <p
+                          className="font-black text-base mb-0.5"
+                          style={{ color: budget === opt.value ? '#C4501A' : '#9B7048' }}
+                        >
+                          {opt.value === 'low' ? '$' : opt.value === 'medium' ? '$$' : '$$$'}
+                        </p>
                         <p className="text-xs font-bold text-on-surface">{opt.label}</p>
+                        <p className="text-[10px] text-on-surface-variant mt-0.5">{opt.sub}</p>
                       </button>
                     ))}
                   </div>
@@ -205,14 +230,15 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-4 rounded-2xl font-bold text-base shadow-lg disabled:opacity-60"
+                  className="w-full py-4 rounded-2xl font-bold text-base shadow-lg disabled:opacity-60 text-on-primary active:scale-[0.98] transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #C4501A 0%, #E8723C 100%)' }}
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-on-primary/30 border-t-on-primary rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Creando cuenta...
                     </span>
-                  ) : '¡Comenzar mi aventura! 🗺️'}
+                  ) : '¡Comenzar mi aventura!'}
                 </button>
               </>
             )}
@@ -222,9 +248,20 @@ export default function Register() {
             <div className="mt-6 text-center">
               <p className="text-on-surface-variant text-sm">
                 ¿Ya tienes cuenta?{' '}
-                <Link to="/login" className="text-primary font-bold hover:underline">Inicia sesión</Link>
+                <Link to="/login" className="text-primary font-bold hover:underline">
+                  Inicia sesión
+                </Link>
               </p>
             </div>
+          )}
+
+          {step === 2 && (
+            <button
+              onClick={() => setStep(1)}
+              className="mt-4 w-full text-center text-on-surface-variant text-sm hover:text-on-surface"
+            >
+              ← Regresar
+            </button>
           )}
         </div>
       </div>

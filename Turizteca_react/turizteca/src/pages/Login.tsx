@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import turiztecaLogo from '../img/Turizteca-Logo.png';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,33 +28,37 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="px-6 pt-12 pb-6 text-center">
-        <h1 className="font-headline text-4xl font-black text-primary tracking-tight">Turizteca</h1>
-        <p className="text-on-surface-variant mt-1 text-sm">Descubre los mejores sabores</p>
+    <div className="min-h-screen flex flex-col">
+
+      {/* Sección oscura — obsidiana con logo */}
+      <div
+        className="flex flex-col items-center justify-end px-6 pb-10 pt-16"
+        style={{ background: '#1A0800', minHeight: '42vh' }}
+      >
+        <img src={turiztecaLogo} alt="Turizteca" className="h-28 w-auto mb-5 drop-shadow-xl" />
+        <p className="text-[#C4A882] text-sm text-center font-label tracking-wide">
+          Descubre los sabores que México esconde
+        </p>
       </div>
 
-      {/* Hero illustration */}
-      <div className="flex justify-center py-6">
-        <div className="w-32 h-32 bg-gradient-to-br from-primary to-primary-container rounded-full flex items-center justify-center shadow-lg">
-          <span className="text-6xl">🗺️</span>
-        </div>
-      </div>
-
-      {/* Form */}
-      <div className="flex-1 px-6 pb-8">
+      {/* Sección clara — formulario en pergamino */}
+      <div
+        className="flex-1 rounded-t-[2rem] -mt-5 px-6 pt-8 pb-10"
+        style={{ background: '#FBF4E8' }}
+      >
         <div className="max-w-sm mx-auto">
           <h2 className="font-headline text-2xl font-bold text-on-surface mb-6">Inicia sesión</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-on-surface-variant mb-1.5 font-label">Email</label>
-              <div className="flex items-center bg-surface-container-low rounded-xl px-4 py-3 border border-outline-variant/20 focus-within:border-primary transition-colors">
+              <label className="block text-xs font-bold text-on-surface-variant mb-1.5 font-label uppercase tracking-widest">
+                Email
+              </label>
+              <div className="flex items-center bg-white rounded-xl px-4 py-3.5 border border-outline-variant/30 focus-within:border-primary transition-colors shadow-sm">
                 <span className="material-symbols-outlined text-outline mr-3 text-sm">mail</span>
                 <input
                   type="email"
-                  className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/50 text-sm"
+                  className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/40 text-sm"
                   placeholder="tu@email.com"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
@@ -63,19 +68,23 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-on-surface-variant mb-1.5 font-label">Contraseña</label>
-              <div className="flex items-center bg-surface-container-low rounded-xl px-4 py-3 border border-outline-variant/20 focus-within:border-primary transition-colors">
+              <label className="block text-xs font-bold text-on-surface-variant mb-1.5 font-label uppercase tracking-widest">
+                Contraseña
+              </label>
+              <div className="flex items-center bg-white rounded-xl px-4 py-3.5 border border-outline-variant/30 focus-within:border-primary transition-colors shadow-sm">
                 <span className="material-symbols-outlined text-outline mr-3 text-sm">lock</span>
                 <input
                   type={showPw ? 'text' : 'password'}
-                  className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/50 text-sm"
+                  className="flex-1 bg-transparent outline-none text-on-surface placeholder-on-surface-variant/40 text-sm"
                   placeholder="••••••••"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
                 />
                 <button type="button" onClick={() => setShowPw(p => !p)} className="text-outline ml-2">
-                  <span className="material-symbols-outlined text-sm">{showPw ? 'visibility_off' : 'visibility'}</span>
+                  <span className="material-symbols-outlined text-sm">
+                    {showPw ? 'visibility_off' : 'visibility'}
+                  </span>
                 </button>
               </div>
             </div>
@@ -90,11 +99,12 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-4 rounded-2xl font-bold text-base shadow-lg disabled:opacity-60 mt-2 active:scale-[0.98] transition-transform"
+              className="w-full py-4 rounded-2xl font-bold text-base shadow-lg disabled:opacity-60 mt-2 active:scale-[0.98] transition-transform text-on-primary"
+              style={{ background: 'linear-gradient(135deg, #C4501A 0%, #E8723C 100%)' }}
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-on-primary/30 border-t-on-primary rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Iniciando sesión...
                 </span>
               ) : 'Iniciar Sesión'}
