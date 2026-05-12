@@ -68,6 +68,7 @@ export interface RegisterData {
 }
 
 export interface RestaurantFormData {
+  owner_id?: number;
   name: string;
   description: string;
   cuisine_type: CuisineType;

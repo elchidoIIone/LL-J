@@ -22,7 +22,7 @@ const EMPTY_FORM: RestaurantFormData = {
   average_price: 150,
   location_lat: 19.4326,
   location_lng: -99.1332,
-  opening_hours_type: 'fixed',
+  opening_hours_type: 'all_day',
   opens_at: '08:00',
   closes_at: '22:00',
 };
@@ -44,6 +44,9 @@ export default function OwnerDashboard() {
     latitude: 19.4326,
     zoom: 12,
   });
+  const [geoSearch, setGeoSearch] = useState('');
+  const [geoResults, setGeoResults] = useState<{ place_name: string; center: [number, number] }[]>([]);
+  const [geoLoading, setGeoLoading] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -73,6 +76,33 @@ export default function OwnerDashboard() {
     setForm(f => ({ ...f, location_lat: lat, location_lng: lng }));
   }, []);
 
+  const handleGeoSearch = async () => {
+    if (!geoSearch.trim() || !MAPBOX_TOKEN) return;
+    setGeoLoading(true);
+    try {
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(geoSearch)}.json?access_token=${MAPBOX_TOKEN}&limit=5&language=es`
+      );
+      const data = await res.json();
+      setGeoResults(
+        (data.features ?? []).map((f: { place_name: string; center: [number, number] }) => ({
+          place_name: f.place_name,
+          center: f.center,
+        }))
+      );
+    } finally {
+      setGeoLoading(false);
+    }
+  };
+
+  const handleGeoSelect = (result: { place_name: string; center: [number, number] }) => {
+    const [lng, lat] = result.center;
+    setPickerView(v => ({ ...v, longitude: lng, latitude: lat, zoom: 13 }));
+    setForm(f => ({ ...f, location_lat: lat, location_lng: lng }));
+    setGeoResults([]);
+    setGeoSearch(result.place_name);
+  };
+
   const fetchMyRestaurants = () => {
     getRestaurants()
       .then(res => {
@@ -85,12 +115,21 @@ export default function OwnerDashboard() {
       .finally(() => setLoading(false));
   };
 
+  const isInMexico = (lat: number, lng: number) =>
+    lat >= 14.5 && lat <= 32.7 && lng >= -118.4 && lng <= -86.7;
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
+
+    if (!isInMexico(form.location_lat, form.location_lng)) {
+      setFormError('La ubicación del restaurante debe estar dentro de México. Por favor mueve el pin al lugar correcto.');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await createRestaurant(form);
+      await createRestaurant({ ...form, owner_id: user!.id });
       setSuccess('¡Restaurante publicado exitosamente!');
       setShowForm(false);
       setForm(EMPTY_FORM);
@@ -322,6 +361,44 @@ export default function OwnerDashboard() {
                     <span className="material-symbols-outlined text-sm text-primary">location_on</span>
                     Ubicación — toca el mapa para colocar el pin
                   </label>
+                  <div className="flex gap-2 mb-2 relative">
+                    <input
+                      type="text"
+                      className="flex-1 bg-surface-container-low rounded-xl px-3 py-2 text-sm outline-none border border-outline-variant/20 focus:border-primary transition-colors"
+                      placeholder="Buscar ciudad o dirección..."
+                      value={geoSearch}
+                      onChange={e => { setGeoSearch(e.target.value); setGeoResults([]); }}
+                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleGeoSearch(); } }}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleGeoSearch}
+                      disabled={geoLoading}
+                      className="px-3 py-2 rounded-xl text-on-primary font-bold text-sm disabled:opacity-60 flex items-center justify-center"
+                      style={{ background: '#C4501A' }}
+                    >
+                      {geoLoading
+                        ? <div className="w-4 h-4 border-2 border-on-primary/30 border-t-on-primary rounded-full animate-spin" />
+                        : <span className="material-symbols-outlined text-sm">search</span>
+                      }
+                    </button>
+                    {geoResults.length > 0 && (
+                      <div className="absolute top-full left-0 right-12 z-10 bg-white border border-outline-variant/20 rounded-xl shadow-lg overflow-hidden mt-1">
+                        {geoResults.map((r, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => handleGeoSelect(r)}
+                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-surface-container transition-colors border-b border-outline-variant/10 last:border-0 flex items-start gap-2"
+                          >
+                            <span className="material-symbols-outlined text-sm text-primary shrink-0 mt-0.5">location_on</span>
+                            <span className="truncate">{r.place_name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <div
                     className="relative w-full rounded-xl overflow-hidden border border-outline-variant/20"
                     style={{ height: 240 }}
@@ -364,6 +441,12 @@ export default function OwnerDashboard() {
                     <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1.5 text-[10px] font-mono text-on-surface-variant shadow">
                       {form.location_lat.toFixed(5)}, {form.location_lng.toFixed(5)}
                     </div>
+                    {!isInMexico(form.location_lat, form.location_lng) && (
+                      <div className="absolute top-2 left-2 right-2 bg-error/90 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white flex items-center gap-1.5 shadow">
+                        <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
+                        El pin está fuera de México
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

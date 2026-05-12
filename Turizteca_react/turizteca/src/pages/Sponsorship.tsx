@@ -5,7 +5,6 @@ import { getRestaurant, createSponsorship } from '../api';
 import type { Restaurant, SponsorshipTier, VisibilityLevel } from '../types';
 import { SPONSORSHIP_TIERS } from '../types';
 import Header from '../components/layout/Header';
-import BottomNav from '../components/layout/BottomNav';
 import AztecDivider from '../components/ui/AztecDivider';
 import AztecStamp from '../components/ui/AztecStamp';
 
@@ -93,7 +92,7 @@ export default function Sponsorship() {
   }
 
   return (
-    <div className="min-h-screen pb-32">
+    <div className="min-h-screen pb-16">
       <Header showBack title="Promocionar" />
 
       <div className="pt-16">
@@ -296,8 +295,6 @@ export default function Sponsorship() {
           </div>
         </div>
       </div>
-
-      <BottomNav />
     </div>
   );
 }

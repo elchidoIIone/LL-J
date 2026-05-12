@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Review;
 
 class ReviewsAPIController extends Controller
@@ -11,11 +12,16 @@ class ReviewsAPIController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reviews = Review::with(['restaurant', 'user'])->get();
+        $query = Review::with(['user']);
+
+        if ($request->has('restaurant_id')) {
+            $query->where('restaurant_id', $request->restaurant_id);
+        }
+
         return response()->json([
-            "data" => $reviews,
+            "data" => $query->get(),
             "status" => "success"
         ]);
     }
@@ -35,12 +41,18 @@ class ReviewsAPIController extends Controller
     {
         $request->validate([
             'restaurant_id' => 'required|numeric',
-            'user_id' => 'required|numeric',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string'
         ]);
 
-        $review = Review::create($request->all());
+        $review = Review::create([
+            'restaurant_id' => $request->restaurant_id,
+            'user_id' => Auth::id(),
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        $review->load('user');
 
         return response()->json([
             "data" => $review,

@@ -11,6 +11,8 @@ class Review extends Model
 
     protected $fillable = ['restaurant_id', 'user_id', 'rating', 'comment'];
 
+    protected $casts = ['rating' => 'integer'];
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);

@@ -73,7 +73,7 @@ export default function RestaurantDetail() {
   };
 
   const avgRating = reviews.length
-    ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
+    ? reviews.reduce((s, r) => s + Number(r.rating), 0) / reviews.length
     : 0;
 
   if (loading) {
@@ -231,9 +231,9 @@ export default function RestaurantDetail() {
               <span className="font-medium">{restaurant.opens_at} – {restaurant.closes_at}</span>
             </div>
           )}
-          {restaurant.location_lat && (
+          {restaurant.location_lat && restaurant.location_lng && (
             <button
-              onClick={() => navigate('/explore')}
+              onClick={() => navigate(`/explore?lat=${restaurant.location_lat}&lng=${restaurant.location_lng}&rid=${restaurant.id}`)}
               className="flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl text-sm text-on-surface border border-outline-variant/20 shadow-sm hover:border-primary/40 transition-colors"
             >
               <span className="material-symbols-outlined text-sm text-secondary">location_on</span>

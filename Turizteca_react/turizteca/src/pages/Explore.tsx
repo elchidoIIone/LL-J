@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Map, { Marker, Popup } from 'react-map-gl/mapbox';
+import Map, { Marker, Popup, Source, Layer } from 'react-map-gl/mapbox';
 import type { MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getRestaurants } from '../api';
 import type { Restaurant, CuisineType } from '../types';
 import { CUISINE_LABELS, CUISINE_EMOJI } from '../types';
@@ -10,7 +10,37 @@ import BottomNav from '../components/layout/BottomNav';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-const DEFAULT_CENTER = { longitude: -96.9, latitude: 19.5, zoom: 5 };
+const DEFAULT_CENTER = { longitude: -96.9, latitude: 23, zoom: 4.8 };
+
+// Límites que permiten ver México + un poco de vecinos para el efecto "bloqueado"
+const MEXICO_MAX_BOUNDS: [[number, number], [number, number]] = [
+  [-122, 10],
+  [-82, 35],
+];
+
+// Capas que grisan todo excepto México (efecto "bloqueado")
+const NON_MX_FILL = {
+  id: 'non-mexico-fill',
+  type: 'fill' as const,
+  'source-layer': 'country_boundaries',
+  filter: ['!=', ['get', 'iso_3166_1'], 'MX'],
+  paint: { 'fill-color': '#b0b0b8', 'fill-opacity': 0.72 },
+};
+
+const NON_MX_LINE = {
+  id: 'non-mexico-line',
+  type: 'line' as const,
+  'source-layer': 'country_boundaries',
+  filter: ['!=', ['get', 'iso_3166_1'], 'MX'],
+  paint: { 'line-color': '#888898', 'line-opacity': 0.5, 'line-width': 0.8 },
+};
+
+// Marcadores "Próximamente" en países vecinos visibles
+const COMING_SOON = [
+  { lng: -104.5, lat: 31.2, name: 'EE.UU.' },
+  { lng: -91, lat: 14.4, name: 'Centroamérica' },
+  { lng: -80, lat: 22.5, name: 'Caribe' },
+];
 
 const CUISINE_FILTERS: { key: CuisineType | 'all'; label: string }[] = [
   { key: 'all', label: 'Todos' },
@@ -23,23 +53,49 @@ const CUISINE_FILTERS: { key: CuisineType | 'all'; label: string }[] = [
 
 export default function Explore() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const mapRef = useRef<MapRef>(null);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selected, setSelected] = useState<Restaurant | null>(null);
   const [filter, setFilter] = useState<CuisineType | 'all'>('all');
-  const [viewState, setViewState] = useState(DEFAULT_CENTER);
+
+  // Si venimos de "Ver en mapa", abrir centrado en ese restaurante
+  const urlLat = parseFloat(searchParams.get('lat') ?? '');
+  const urlLng = parseFloat(searchParams.get('lng') ?? '');
+  const urlRid = parseInt(searchParams.get('rid') ?? '');
+  const hasUrlLocation = !isNaN(urlLat) && !isNaN(urlLng);
+
+  const [viewState, setViewState] = useState(
+    hasUrlLocation
+      ? { longitude: urlLng, latitude: urlLat, zoom: 15 }
+      : DEFAULT_CENTER
+  );
   const [showFilters, setShowFilters] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lng: number; lat: number } | null>(null);
 
   useEffect(() => {
     getRestaurants()
-      .then(res => setRestaurants(Array.isArray(res.data) ? res.data : res.data.data ?? []))
+      .then(res => {
+        const list: Restaurant[] = Array.isArray(res.data) ? res.data : res.data.data ?? [];
+        setRestaurants(list);
+        // Auto-seleccionar el restaurante si venimos de "Ver en mapa"
+        if (!isNaN(urlRid)) {
+          const target = list.find(r => r.id === urlRid);
+          if (target) setSelected(target);
+        }
+      })
       .catch(() => {});
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(pos => {
-        setUserLocation({ lng: pos.coords.longitude, lat: pos.coords.latitude });
-        setViewState(v => ({ ...v, longitude: pos.coords.longitude, latitude: pos.coords.latitude, zoom: 12 }));
+        const lng = pos.coords.longitude;
+        const lat = pos.coords.latitude;
+        setUserLocation({ lng, lat });
+        // Solo volar a la ubicación si el usuario está dentro de México y no hay URL params
+        const inMexico = lng >= -118.5 && lng <= -86.7 && lat >= 14.5 && lat <= 32.7;
+        if (inMexico && !hasUrlLocation) {
+          setViewState(v => ({ ...v, longitude: lng, latitude: lat, zoom: 12 }));
+        }
       });
     }
   }, []);
@@ -71,7 +127,35 @@ export default function Explore() {
         mapStyle="mapbox://styles/mapbox/streets-v12"
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
+        maxBounds={MEXICO_MAX_BOUNDS}
+        minZoom={4.2}
       >
+        {/* Overlay oscuro en todos los países excepto México */}
+        <Source id="country-boundaries" type="vector" url="mapbox://mapbox.country-boundaries-v1">
+          <Layer {...NON_MX_FILL} />
+          <Layer {...NON_MX_LINE} />
+        </Source>
+
+        {/* Marcadores "Próximamente" en países vecinos */}
+        {COMING_SOON.map(cs => (
+          <Marker key={cs.name} longitude={cs.lng} latitude={cs.lat}>
+            <div
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl shadow-xl border pointer-events-none select-none"
+              style={{ background: 'rgba(255,255,255,0.92)', borderColor: 'rgba(136,136,152,0.5)' }}
+            >
+              <span className="text-sm">🔒</span>
+              <div>
+                <p className="text-[8px] font-black uppercase tracking-widest leading-none" style={{ color: '#444455' }}>
+                  {cs.name}
+                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#888898' }}>
+                  Próximamente
+                </p>
+              </div>
+            </div>
+          </Marker>
+        ))}
+
         {userLocation && (
           <Marker longitude={userLocation.lng} latitude={userLocation.lat}>
             <div
