@@ -9,8 +9,11 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
 
 // Login
-Route::view('/login', 'auth.login')->name('login');
 
+Route::get('/', function() {
+            return view('welcome');
+        })->name('welcome');
+Route::view('/login', 'auth.login')->name('login');
 // Dashboard
 Route::middleware(['auth', 'can:access-admin'])
     ->prefix('admin')
@@ -44,7 +47,7 @@ Route::get('/docs', function() {
             return view('docs');
         })->name('docs');
 
-Route::get('/', fn() => redirect('/login'));
+
 
 
 Auth::routes();
