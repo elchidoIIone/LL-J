@@ -63,30 +63,188 @@ export default function Sponsorship() {
   }
 
   if (success) {
+    const tierColor = TIER_COLORS[selectedTier.level];
+    const tierIcon = TIER_ICONS[selectedTier.level];
+
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
-        style={{ background: 'linear-gradient(180deg, #1A0800 0%, #2A1200 60%, #FBF4E8 60%, #FBF4E8 100%)' }}
+      <div
+        className="min-h-screen relative overflow-hidden"
+        style={{ background: 'linear-gradient(180deg, #1A0800 0%, #2A1200 50%, #3D1A00 100%)' }}
       >
-        <div className="mb-6">
-          <AztecStamp color={TIER_COLORS[selectedTier.level]} size={140}>
-            <span className="text-5xl">🎉</span>
-          </AztecStamp>
+        {/* Decoración: confetti aztec dots */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 15% 20%, ${tierColor} 2px, transparent 3px),
+              radial-gradient(circle at 85% 15%, #E8723C 2px, transparent 3px),
+              radial-gradient(circle at 25% 75%, #D4960A 1.5px, transparent 2.5px),
+              radial-gradient(circle at 75% 80%, ${tierColor} 1.5px, transparent 2.5px),
+              radial-gradient(circle at 50% 10%, #1B7A6E 1.5px, transparent 2.5px),
+              radial-gradient(circle at 10% 50%, #E8723C 1px, transparent 2px),
+              radial-gradient(circle at 90% 55%, #D4960A 1px, transparent 2px)
+            `,
+            backgroundSize: '100% 100%',
+          }}
+        />
+
+        <div className="relative z-10 flex flex-col items-center px-6 pt-16 pb-32 max-w-md mx-auto">
+
+          {/* Eyebrow label */}
+          <div className="flex items-center gap-2 mb-4 animate-[fadeIn_0.5s_ease-out]">
+            <span className="w-6 h-px" style={{ background: tierColor }} />
+            <span className="font-label uppercase tracking-widest text-[10px] font-bold" style={{ color: tierColor }}>
+              Activación confirmada
+            </span>
+            <span className="w-6 h-px" style={{ background: tierColor }} />
+          </div>
+
+          {/* Sello azteca con icono del tier */}
+          <div className="relative mb-6 animate-[fadeIn_0.7s_ease-out]">
+            <div
+              className="absolute inset-0 rounded-full blur-2xl opacity-50 animate-pulse"
+              style={{ background: tierColor, transform: 'scale(0.85)' }}
+            />
+            <div className="relative">
+              <AztecStamp color={tierColor} size={160}>
+                <span className="text-6xl drop-shadow-2xl select-none">{tierIcon}</span>
+              </AztecStamp>
+            </div>
+            {/* Check pequeñito flotante */}
+            <div
+              className="absolute -bottom-1 -right-1 w-12 h-12 rounded-full flex items-center justify-center shadow-xl border-4"
+              style={{ background: '#1B7A6E', borderColor: '#1A0800' }}
+            >
+              <span
+                className="material-symbols-outlined text-2xl text-white"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                check
+              </span>
+            </div>
+          </div>
+
+          {/* Título */}
+          <h2 className="font-headline text-4xl font-black text-[#FBF4E8] mb-2 tracking-tight text-center">
+            ¡Plan Activado!
+          </h2>
+          <p className="text-[#C4A882] text-sm mb-8 text-center max-w-xs">
+            La grandeza azteca ahora te respalda 🌶️
+          </p>
+
+          {/* Tarjeta de detalle del plan */}
+          <div
+            className="w-full bg-[#1A0800]/60 backdrop-blur-sm border rounded-3xl overflow-hidden mb-6 shadow-2xl"
+            style={{ borderColor: `${tierColor}55` }}
+          >
+            {/* Acento superior */}
+            <div className="h-1.5" style={{ background: tierColor }} />
+
+            <div className="p-6">
+              {/* Plan + precio */}
+              <div className="flex items-start justify-between mb-5">
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest font-label font-bold text-[#C4A882] block mb-1">
+                    Plan contratado
+                  </span>
+                  <h3 className="font-headline text-2xl font-black" style={{ color: tierColor }}>
+                    {selectedTier.label}
+                  </h3>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase tracking-widest font-label font-bold text-[#C4A882] block mb-1">
+                    Total
+                  </span>
+                  <p className="font-headline text-2xl font-black text-[#FBF4E8] leading-none">
+                    ${selectedTier.price}
+                    <span className="text-xs text-[#C4A882] font-bold ml-1">MXN</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Restaurante */}
+              <div className="pt-4 border-t border-[#C4A882]/15">
+                <span className="text-[10px] uppercase tracking-widest font-label font-bold text-[#C4A882] block mb-1.5">
+                  Restaurante
+                </span>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="material-symbols-outlined text-base"
+                    style={{ color: tierColor, fontVariationSettings: "'FILL' 1" }}
+                  >
+                    storefront
+                  </span>
+                  <p className="font-headline font-bold text-[#FBF4E8] text-lg truncate">
+                    {restaurant?.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Beneficios desbloqueados */}
+            <div className="px-6 pb-6">
+              <span className="text-[10px] uppercase tracking-widest font-label font-bold text-[#C4A882] block mb-3">
+                Beneficios desbloqueados
+              </span>
+              <ul className="space-y-2">
+                {selectedTier.perks.map(perk => (
+                  <li key={perk} className="flex items-start gap-2 text-sm text-[#FBF4E8]">
+                    <span
+                      className="material-symbols-outlined text-base shrink-0 mt-0.5"
+                      style={{ color: tierColor, fontVariationSettings: "'FILL' 1" }}
+                    >
+                      check_circle
+                    </span>
+                    <span>{perk}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Confirmación de email */}
+          <div className="flex items-center gap-2 text-xs text-[#C4A882] mb-8">
+            <span
+              className="material-symbols-outlined text-sm"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              mark_email_read
+            </span>
+            Te enviamos los detalles a tu correo
+          </div>
+
+          {/* Botones de acción */}
+          <div className="w-full space-y-2.5">
+            <button
+              onClick={() => navigate(`/restaurant/${restaurantId}`)}
+              className="w-full text-on-primary px-8 py-4 rounded-2xl font-bold shadow-2xl active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
+              style={{ background: `linear-gradient(135deg, ${tierColor}, ${tierColor}dd)` }}
+            >
+              <span
+                className="material-symbols-outlined text-base"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                visibility
+              </span>
+              Ver mi restaurante
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="w-full px-8 py-3.5 rounded-2xl font-bold text-[#FBF4E8] border border-[#C4A882]/30 hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-base">home</span>
+              Volver al inicio
+            </button>
+          </div>
         </div>
-        <h2 className="font-headline text-3xl font-black text-[#FBF4E8] mb-2">¡Activado!</h2>
-        <p className="text-[#C4A882] max-w-xs mb-2">
-          El plan <strong style={{ color: TIER_COLORS[selectedTier.level] }}>{selectedTier.label}</strong> para{' '}
-          <strong className="text-[#FBF4E8]">{restaurant?.name}</strong> está activo.
-        </p>
-        <p className="text-sm text-[#C4A882]/80 mb-8">
-          Tu restaurante ahora tendrá mayor visibilidad en Turizteca.
-        </p>
-        <button
-          onClick={() => navigate(`/restaurant/${restaurantId}`)}
-          className="text-on-primary px-8 py-3.5 rounded-full font-bold shadow-lg active:scale-[0.98] transition-transform"
-          style={{ background: 'linear-gradient(135deg, #C4501A, #E8723C)' }}
-        >
-          Ver mi restaurante
-        </button>
+
+        {/* Animación de keyframes */}
+        <style>{`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
       </div>
     );
   }
@@ -186,7 +344,7 @@ export default function Sponsorship() {
                         ${tier.price}
                       </span>
                       <span className="text-[10px] text-on-surface-variant font-label block uppercase tracking-widest">
-                        USD / mes
+                        MXN / mes
                       </span>
                     </div>
                   </div>
@@ -240,7 +398,7 @@ export default function Sponsorship() {
                 </span>
                 <span className="font-headline text-3xl font-black" style={{ color: TIER_COLORS[selectedTier.level] }}>
                   ${selectedTier.price}
-                  <span className="text-base text-on-surface-variant font-bold ml-1">USD</span>
+                  <span className="text-base text-on-surface-variant font-bold ml-1">MXN</span>
                 </span>
               </div>
               <div className="text-right">
@@ -263,7 +421,7 @@ export default function Sponsorship() {
             <PayPalScriptProvider
               options={{
                 clientId: PAYPAL_CLIENT_ID,
-                currency: 'USD',
+                currency: 'MXN',
               }}
             >
               <PayPalButtons

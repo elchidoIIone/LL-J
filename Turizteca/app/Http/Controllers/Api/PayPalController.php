@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Mail;
 
 class PayPalController extends Controller
 {
-    // Canonical prices per tier (USD) — never trusted from the client
+    // Canonical prices per tier (MXN) — never trusted from the client
     private const TIER_PRICES = [
-        'basic'    => '10.00',
-        'featured' => '25.00',
-        'premium'  => '50.00',
+        'basic'    => '200.00',
+        'featured' => '450.00',
+        'premium'  => '1000.00',
     ];
 
     private const TIER_LABELS = [
@@ -89,7 +89,7 @@ class PayPalController extends Controller
                     'reference_id' => "restaurant_{$restaurant->id}",
                     'description'  => "Turizteca · Plan {$label} · {$restaurant->name}",
                     'amount' => [
-                        'currency_code' => config('paypal.currency', 'USD'),
+                        'currency_code' => config('paypal.currency', 'MXN'),
                         'value'         => $amount,
                     ],
                 ]],
@@ -124,7 +124,7 @@ class PayPalController extends Controller
         $level         = $request->visibility_level;
         $expectedPrice = self::TIER_PRICES[$level];
         $label         = self::TIER_LABELS[$level];
-        $currency      = config('paypal.currency', 'USD');
+        $currency      = config('paypal.currency', 'MXN');
 
         $token    = $this->getAccessToken();
         $response = Http::withToken($token)

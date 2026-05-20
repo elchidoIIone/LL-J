@@ -291,17 +291,6 @@ export default function Explore() {
         </div>
       )}
 
-      {/* Botón "Buscar aquí" */}
-      <div className={`absolute ${showFilters ? 'top-32' : 'top-24'} left-1/2 -translate-x-1/2 z-10 transition-all`}>
-        <button
-          className="px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 font-label font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all text-on-primary"
-          style={{ background: 'linear-gradient(135deg, #C4501A, #E8723C)' }}
-        >
-          <span className="material-symbols-outlined text-base">refresh</span>
-          Buscar aquí
-        </button>
-      </div>
-
       {/* Carrusel inferior */}
       {mapped.length > 0 && (
         <div className="absolute bottom-24 left-0 w-full z-10">

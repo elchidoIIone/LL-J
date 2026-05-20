@@ -2,7 +2,7 @@
 
 return [
     'mode'     => env('PAYPAL_MODE', 'sandbox'),
-    'currency' => env('PAYPAL_CURRENCY', 'USD'),
+    'currency' => env('PAYPAL_CURRENCY', 'MXN'),
 
     'sandbox' => [
         'client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID', ''),
