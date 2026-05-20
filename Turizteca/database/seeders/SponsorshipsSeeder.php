@@ -12,16 +12,22 @@ class SponsorshipsSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $visibility = ['low','medium','high'];
+        $tiers = [
+            'basic'    => 'Básico',
+            'featured' => 'Destacado',
+            'premium'  => 'Premium',
+        ];
+        $levels = array_keys($tiers);
         $recs = [];
 
         for ($i = 1; $i <= 8; $i++) {
+            $level = $faker->randomElement($levels);
 
             $recs[] = [
                 'id' => $i,
                 'restaurant_id' => $i,
-                'visibility_level' => $faker->randomElement($visibility),
-                'label' => 'Patrocinado'
+                'visibility_level' => $level,
+                'label' => $tiers[$level],
             ];
         }
 

@@ -36,10 +36,11 @@ class OverviewController extends Controller
             ->get();
 
         // Composición de patrocinios por nivel (sin fechas)
-        // Acepta 1/2/3 y 'low'/'medium'/'high'
+        // Acepta 'basic'/'featured'/'premium' (esquema actual) y legados 'low'/'medium'/'high'
         $levelMap = [
+            'basic'    => 1, 'featured' => 2, 'premium' => 3,
+            'low'      => 1, 'medium'   => 2, 'high'    => 3,
             '1' => 1, '2' => 2, '3' => 3,
-            'low' => 1, 'medium' => 2, 'high' => 3,
         ];
 
         $levelCounts = [1 => 0, 2 => 0, 3 => 0];

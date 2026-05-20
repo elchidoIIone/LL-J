@@ -120,12 +120,20 @@ class ReviewsAPIController extends Controller
     public function destroy(string $id)
     {
         $review = Review::find($id);
-        
+
         if ($review == null) {
             return response()->json([
                 "message" => "Reseña no encontrada",
                 "status" => "error"
             ], 404);
+        }
+
+        $user = Auth::user();
+        if ($review->user_id !== $user->id && $user->account_type !== 'admin') {
+            return response()->json([
+                "message" => "No tienes permiso para eliminar esta reseña.",
+                "status"  => "error"
+            ], 403);
         }
 
         $review->delete();

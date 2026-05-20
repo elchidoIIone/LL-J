@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PayPalController;
 
 
 // API Routes
@@ -31,7 +32,11 @@ Route::middleware('jwt')->group(function () {
     // Reviews: authenticated users can create/delete
     Route::post('/reviews', [\App\Http\Controllers\Api\ReviewsAPIController::class, 'store']);
     Route::delete('/reviews/{review}', [\App\Http\Controllers\Api\ReviewsAPIController::class, 'destroy']);
-    // Sponsorships: only authenticated owners can create
+    // Sponsorships: only authenticated owners can create (via PayPal capture)
     Route::post('/sponsorships', [\App\Http\Controllers\Api\SponsorshipsAPIController::class, 'store']);
     Route::delete('/sponsorships/{sponsorship}', [\App\Http\Controllers\Api\SponsorshipsAPIController::class, 'destroy']);
+
+    // PayPal payment flow
+    Route::post('/paypal/create-order', [PayPalController::class, 'createOrder']);
+    Route::post('/paypal/capture-order', [PayPalController::class, 'captureOrder']);
 });

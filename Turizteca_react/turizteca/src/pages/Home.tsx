@@ -42,9 +42,29 @@ export default function Home() {
     return matchSearch && matchCat;
   }), [restaurants, search, activeCategory]);
 
-  const featured = filtered.filter(r => r.sponsorship?.visibility_level === 'premium');
-  const recommended = [...featured, ...filtered.filter(r => !featured.includes(r))].slice(0, 10);
-  const trending = [...filtered].sort((a, b) => (b.avg_rating ?? 0) - (a.avg_rating ?? 0)).slice(0, 8);
+  // Tier priority: premium (3) > featured (2) > basic (1) > none (0)
+  const tierWeight = (r: Restaurant) => {
+    switch (r.sponsorship?.visibility_level) {
+      case 'premium':  return 3;
+      case 'featured': return 2;
+      case 'basic':    return 1;
+      default:         return 0;
+    }
+  };
+
+  // Recomendados: premium first, then featured, then basic, then by rating
+  const recommended = [...filtered].sort((a, b) => {
+    const tierDiff = tierWeight(b) - tierWeight(a);
+    if (tierDiff !== 0) return tierDiff;
+    return (b.avg_rating ?? 0) - (a.avg_rating ?? 0);
+  }).slice(0, 10);
+
+  // Trending: premium + featured tiers always appear, then by rating
+  const trending = [...filtered].sort((a, b) => {
+    const aBoost = tierWeight(a) >= 2 ? 5 : 0;
+    const bBoost = tierWeight(b) >= 2 ? 5 : 0;
+    return (b.avg_rating ?? 0) + bBoost - ((a.avg_rating ?? 0) + aBoost);
+  }).slice(0, 8);
 
   // Stats reales del catálogo cargado
   const totalRestaurants = restaurants.length;

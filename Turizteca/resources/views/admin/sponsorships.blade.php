@@ -47,7 +47,7 @@
                 <div>
                     <label class="text-sm text-slate-300">Nivel de visibilidad</label>
                     <select name="visibility_level" class="input mt-1" required>
-                        @foreach (['low'=>'Bajo','medium'=>'Medio','high'=>'Alto'] as $key => $label)
+                        @foreach (['basic'=>'Básico','featured'=>'Destacado','premium'=>'Premium'] as $key => $label)
                             <option value="{{ $key }}" @selected(old('visibility_level') == $key)>
                                 {{ $label }}
                             </option>
@@ -100,7 +100,7 @@
                                     <td class="py-2 pr-4 align-top">{{ $s->restaurant?->name ?? '—' }}</td>
 
                                     <td class="py-2 pr-4 align-top">
-                                        @php $map = ['low'=>'Bajo','medium'=>'Medio','high'=>'Alto']; @endphp
+                                        @php $map = ['basic'=>'Básico','featured'=>'Destacado','premium'=>'Premium']; @endphp
                                         {{ $map[$s->visibility_level] ?? $s->visibility_level }}
                                     </td>
 

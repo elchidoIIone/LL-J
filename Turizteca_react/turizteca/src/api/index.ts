@@ -70,8 +70,17 @@ export const deleteReview = (id: number) =>
 export const getSponsorships = () =>
   api.get('/sponsorships');
 
-export const createSponsorship = (data: { restaurant_id: number; visibility_level: string; label: string }) =>
-  api.post('/sponsorships', data);
+// PayPal – server-side order flow (prices/labels are set by the server, never trusted from client)
+export const createPayPalOrder = (data: {
+  restaurant_id: number;
+  visibility_level: string;
+}) => api.post('/paypal/create-order', data);
+
+export const capturePayPalOrder = (data: {
+  order_id: string;
+  restaurant_id: number;
+  visibility_level: string;
+}) => api.post('/paypal/capture-order', data);
 
 export const getUserCuisines = () =>
   api.get('/user_cuisines');

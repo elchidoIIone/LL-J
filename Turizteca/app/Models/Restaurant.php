@@ -23,6 +23,20 @@ class Restaurant extends Model
         'closes_at'
     ];
 
+    protected $appends = ['avg_rating', 'review_count'];
+
+    public function getAvgRatingAttribute()
+    {
+        $value = $this->attributes['reviews_avg_rating'] ?? null;
+        return $value === null ? null : (float) $value;
+    }
+
+    public function getReviewCountAttribute()
+    {
+        $value = $this->attributes['reviews_count'] ?? null;
+        return $value === null ? null : (int) $value;
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -36,6 +50,11 @@ class Restaurant extends Model
     public function sponsorships()
     {
         return $this->hasMany(Sponsorship::class);
+    }
+
+    public function sponsorship()
+    {
+        return $this->hasOne(Sponsorship::class);
     }
 
     public function reviews()

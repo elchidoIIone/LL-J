@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { getRestaurant, createSponsorship } from '../api';
+import { getRestaurant, createPayPalOrder, capturePayPalOrder } from '../api';
 import type { Restaurant, SponsorshipTier, VisibilityLevel } from '../types';
 import { SPONSORSHIP_TIERS } from '../types';
 import Header from '../components/layout/Header';
@@ -40,17 +40,17 @@ export default function Sponsorship() {
       .finally(() => setLoading(false));
   }, [restaurantId]);
 
-  const handlePaymentSuccess = async (_orderId: string) => {
+  const handleCaptureOrder = async (paypalOrderId: string) => {
     if (!restaurantId) return;
     try {
-      await createSponsorship({
+      await capturePayPalOrder({
+        order_id: paypalOrderId,
         restaurant_id: Number(restaurantId),
         visibility_level: selectedTier.level,
-        label: selectedTier.label,
       });
       setSuccess(true);
     } catch {
-      setError('El pago fue exitoso pero hubo un error al activar el plan. Contacta soporte.');
+      setError('El pago fue procesado pero hubo un error al activar el plan. Contacta soporte con tu orden PayPal.');
     }
   };
 
@@ -268,21 +268,16 @@ export default function Sponsorship() {
             >
               <PayPalButtons
                 style={{ layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' }}
-                createOrder={(_data, actions) =>
-                  actions.order.create({
-                    intent: 'CAPTURE',
-                    purchase_units: [{
-                      description: `Turizteca - Plan ${selectedTier.label} para ${restaurant?.name}`,
-                      amount: {
-                        currency_code: 'USD',
-                        value: String(selectedTier.price),
-                      },
-                    }],
-                  })
-                }
-                onApprove={async (_data, actions) => {
-                  const order = await actions.order?.capture();
-                  if (order?.id) await handlePaymentSuccess(order.id);
+                createOrder={async () => {
+                  if (!restaurantId) throw new Error('No restaurant');
+                  const res = await createPayPalOrder({
+                    restaurant_id: Number(restaurantId),
+                    visibility_level: selectedTier.level,
+                  });
+                  return res.data.order_id;
+                }}
+                onApprove={async (data) => {
+                  await handleCaptureOrder(data.orderID);
                 }}
                 onError={() => setError('Error al procesar el pago. Intenta de nuevo.')}
               />

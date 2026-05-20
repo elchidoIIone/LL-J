@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Mail\WelcomeEmail;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Middleware\JwtMiddleware;
@@ -18,8 +20,8 @@ class AuthController extends Controller
         $request->validate([
             'name'             => 'required|string|max:255',
             'email'            => 'required|string|email|max:255|unique:users',
-            'password'         => 'required|string|min:6',
-            'account_type'     => 'nullable|in:customer,owner,admin',
+            'password'         => 'required|string|min:8',
+            'account_type'     => 'nullable|in:customer,owner',
             'preferred_budget' => 'nullable|in:low,medium,high',
         ]);
 
@@ -36,6 +38,8 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not create token'], 500);
         }
+
+        Mail::to($user->email)->queue(new WelcomeEmail($user));
 
         return response()->json([
             'token' => $token,
@@ -91,7 +95,11 @@ class AuthController extends Controller
     {
         try {
             $user = Auth::user();
-            $user->update($request->only(['name', 'email']));
+            $validated = $request->validate([
+                'name'  => 'sometimes|required|string|max:255',
+                'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
+            ]);
+            $user->update($validated);
             return response()->json($user);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Failed to update user'], 500);

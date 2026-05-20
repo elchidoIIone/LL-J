@@ -21,15 +21,27 @@ class SponsorshipsController extends Controller
     {
         $data = $request->validate([
             'restaurant_id'   => ['required','exists:restaurants,id'],
-            'visibility_level'=> ['required','in:low,medium,high'],
+            'visibility_level'=> ['required','in:basic,featured,premium'],
             'label'           => ['nullable','string','max:30'],
         ]);
 
+        $defaultLabels = [
+            'basic'    => 'Básico',
+            'featured' => 'Destacado',
+            'premium'  => 'Premium',
+        ];
+
         if (empty($data['label'])) {
-            $data['label'] = 'Patrocinado';
+            $data['label'] = $defaultLabels[$data['visibility_level']] ?? 'Patrocinado';
         }
 
-        Sponsorship::create($data);
+        Sponsorship::updateOrCreate(
+            ['restaurant_id' => $data['restaurant_id']],
+            [
+                'visibility_level' => $data['visibility_level'],
+                'label'            => $data['label'],
+            ]
+        );
 
         return back()->with('success', 'Patrocinio creado correctamente.');
     }

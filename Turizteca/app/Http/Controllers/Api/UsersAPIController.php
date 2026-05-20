@@ -5,15 +5,23 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersAPIController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private function authorizeAdmin(): void
+    {
+        $user = Auth::user();
+        if (!$user || $user->account_type !== 'admin') {
+            abort(403, 'Solo los administradores pueden gestionar usuarios.');
+        }
+    }
+
     public function index()
     {
+        $this->authorizeAdmin();
+
         $users = User::orderBy('id', 'DESC')->get();
 
         return response()->json([
@@ -22,15 +30,14 @@ class UsersAPIController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $this->authorizeAdmin();
+
         $validated = $request->validate([
             'name' => 'required|string|min:3|max:120',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:4',
+            'password' => 'required|min:8',
             'account_type' => 'required|in:customer,owner,admin',
             'preferred_budget' => 'nullable|in:low,medium,high'
         ]);
@@ -49,11 +56,10 @@ class UsersAPIController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
+        $this->authorizeAdmin();
+
         $user = User::find($id);
 
         if ($user === null) {
@@ -69,11 +75,10 @@ class UsersAPIController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
+        $this->authorizeAdmin();
+
         $user = User::find($id);
 
         if ($user === null) {
@@ -86,7 +91,7 @@ class UsersAPIController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|string|min:3|max:120',
             'email' => 'sometimes|email|unique:users,email,' . $id,
-            'password' => 'sometimes|min:4',
+            'password' => 'sometimes|min:8',
             'account_type' => 'sometimes|in:customer,owner,admin',
             'preferred_budget' => 'nullable|in:low,medium,high'
         ]);
@@ -103,11 +108,10 @@ class UsersAPIController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
+        $this->authorizeAdmin();
+
         $user = User::find($id);
 
         if ($user === null) {

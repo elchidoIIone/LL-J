@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Sponsorship;
 
 class SponsorshipsAPIController extends Controller
@@ -30,23 +31,15 @@ class SponsorshipsAPIController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Sponsorships are created exclusively through the PayPal capture flow.
+     * Direct creation without payment verification is not allowed.
      */
     public function store(Request $request)
     {
-        
-        $request->validate([
-            'restaurant_id' => 'required|numeric',
-            'visibility_level' => 'required|string',
-            'label' => 'nullable|string'
-        ]);
-
-        $sponsorship = Sponsorship::create($request->all());
-
         return response()->json([
-            "data" => $sponsorship,
-            "status" => "success"
-        ], 201);
+            'message' => 'Los patrocinios deben crearse a través del flujo de pago PayPal.',
+            'status'  => 'error',
+        ], 403);
     }
 
     /**
@@ -104,13 +97,22 @@ class SponsorshipsAPIController extends Controller
      */
     public function destroy(string $id)
     {
-        $sponsorship = Sponsorship::find($id);
-        
+        $sponsorship = Sponsorship::with('restaurant')->find($id);
+
         if ($sponsorship == null) {
             return response()->json([
                 "message" => "Patrocinio no encontrado",
                 "status" => "error"
             ], 404);
+        }
+
+        $user = Auth::user();
+        $ownerId = $sponsorship->restaurant?->owner_id;
+        if ($ownerId !== $user->id && $user->account_type !== 'admin') {
+            return response()->json([
+                "message" => "No tienes permiso para cancelar este patrocinio.",
+                "status"  => "error"
+            ], 403);
         }
 
         $sponsorship->delete();

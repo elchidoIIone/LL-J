@@ -125,7 +125,7 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
   {
     level: 'basic',
     label: 'Básico',
-    price: 9.99,
+    price: 10,
     description: 'Aumenta la visibilidad de tu restaurante en los resultados de búsqueda.',
     perks: ['Aparece en "Recomendados"', 'Badge "Patrocinado"', 'Estadísticas básicas'],
     color: '#9f6b48',
@@ -133,7 +133,7 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
   {
     level: 'featured',
     label: 'Destacado',
-    price: 24.99,
+    price: 25,
     description: 'Posicionamiento premium con badge especial y más exposición.',
     perks: ['Aparece en "Trending"', 'Badge "Destacado"', 'Posición prioritaria', 'Estadísticas detalladas'],
     color: '#0e666a',
@@ -141,7 +141,7 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
   {
     level: 'premium',
     label: 'Premium',
-    price: 49.99,
+    price: 50,
     description: 'Máxima visibilidad con el badge "Local Legend" y posición #1.',
     perks: ['Posición #1 en resultados', 'Badge "Local Legend"', 'Mapa destacado', 'Soporte prioritario', 'Analíticas completas'],
     color: '#9e3d00',
